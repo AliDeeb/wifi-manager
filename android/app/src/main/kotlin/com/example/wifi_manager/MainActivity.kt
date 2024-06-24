@@ -13,6 +13,7 @@ class MainActivity: FlutterActivity(){
     private val CHANNEL = "WIFI_MANAGER_CHANNEL"
     private val TURN_ON_WIFI_METHOD = "turnOnWifi"
     private val TURN_OFF_WIFI_METHOD = "turnOffWifi"
+    private val IS_WIFI_ENABLED_METHOD = "isWifiEnabled"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -26,6 +27,8 @@ class MainActivity: FlutterActivity(){
             turnOnWifi(result)
         }else if(call.method == TURN_OFF_WIFI_METHOD){
             turnOffWifi(result)
+        }else if(call.method == IS_WIFI_ENABLED_METHOD){
+            isWifiEnabled(result)
         }else{
             result.notImplemented();
         }
@@ -52,5 +55,10 @@ class MainActivity: FlutterActivity(){
         var wifi = applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
         wifi.setWifiEnabled(false);
         result.success(null)
+    }
+
+    private fun isWifiEnabled(result: MethodChannel.Result){
+        var wifi = applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
+        result.success(wifi.isWifiEnabled)
     }
 }
